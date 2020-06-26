@@ -16,10 +16,10 @@ const moment = moment_;
 
 export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
 
-  @ViewChild('sliderHours') sliderHours: IonSlides;
-  @ViewChild('sliderMinutes') sliderMinutes: IonSlides;
-  @ViewChild('sliderSeconds') sliderSeconds: IonSlides;
-  @ViewChild('sliderMeridian') sliderMeridian: IonSlides;
+  @ViewChild('sliderHours', { static: false }) sliderHours: IonSlides;
+  @ViewChild('sliderMinutes', { static: false }) sliderMinutes: IonSlides;
+  @ViewChild('sliderSeconds', { static: false }) sliderSeconds: IonSlides;
+  @ViewChild('sliderMeridian', { static: false }) sliderMeridian: IonSlides;
 
   hoursArray: any = [];
   minutesArray: any = [];
@@ -74,15 +74,35 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private timePickerService: IonicTimepickerService
   ) {
-    this.inItTimePicker().subscribe();
   }
 
   ngOnInit() {
     this.timePickerService.isModalOpen = true;
+    this.mainObj = null;
+    this.momentObj = null;
+    this.hoursArray = [];
+    this.minutesArray = [];
+    this.secondsArray = [];
+    this.meridianArray = [];
+    this.sliderHoursActiveIndex = 0;
+    this.sliderMinutesActiveIndex = 0;
+    this.sliderSecondsActiveIndex = 0;
+    this.sliderMeridianActiveIndex = 0;
+    this.inItTimePicker().subscribe();
   }
 
   ngOnDestroy() {
     this.timePickerService.isModalOpen = false;
+    this.mainObj = null;
+    this.momentObj = null;
+    this.hoursArray = [];
+    this.minutesArray = [];
+    this.secondsArray = [];
+    this.meridianArray = [];
+    this.sliderHoursActiveIndex = 0;
+    this.sliderMinutesActiveIndex = 0;
+    this.sliderSecondsActiveIndex = 0;
+    this.sliderMeridianActiveIndex = 0;
   }
 
   ionViewDidEnter() {
@@ -115,17 +135,17 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
 
   // get slider hours active index
   onChangeHoursSlide(event) {
-    this.sliderHoursActiveIndex = event.target.swiper.realIndex;
+    this.sliderHoursActiveIndex = event.target.swiper.activeIndex - event.target.swiper.loopedSlides;
   }
 
   // get slider minutes active index
   onChangeMinutesSlide(event) {
-    this.sliderMinutesActiveIndex = event.target.swiper.realIndex;
+    this.sliderMinutesActiveIndex = event.target.swiper.activeIndex - event.target.swiper.loopedSlides;
   }
 
   // get slider seconds active index
   onChangeSecondsSlide(event) {
-    this.sliderSecondsActiveIndex = event.target.swiper.realIndex;
+    this.sliderSecondsActiveIndex = event.target.swiper.activeIndex - event.target.swiper.loopedSlides;
   }
 
   // get slider seconds active index
