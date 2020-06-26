@@ -298,9 +298,9 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
   initMinutesArray(format) {
     const obj = moment().startOf('hour');
     const minutesArray: any = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 60; i += 5) {
       minutesArray.push(obj.format(format));
-      obj.add(1, 'minutes');
+      obj.add(5, 'minutes');
     }
     return minutesArray;
   }
