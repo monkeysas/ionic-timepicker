@@ -1,6 +1,6 @@
 {
-  "name": "@monkeysas/ionic-timepicker",
-  "version": "1.0.4",
+  "name": "@logisticinfotech/ionic-timepicker",
+  "version": "1.0.5",
   "description": "ionic-timepicker inspired by rajeshwar patlolla ionic1 timepicker",
   "keywords": ["ionic-timepicker", "ionic", "ionie4-timepicker", "ionic-time-picker", "time picker", "timepicker", "timepicker-component", "Ionic-timepicker-component", "ion-timepicker", "component", "time", "Picker", "Angular"],
   "license": "SEE LICENSE IN LICENSE",
