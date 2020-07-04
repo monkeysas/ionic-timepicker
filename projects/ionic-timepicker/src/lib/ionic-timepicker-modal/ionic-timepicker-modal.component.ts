@@ -74,6 +74,7 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private timePickerService: IonicTimepickerService
   ) {
+    this.inItTimePicker().subscribe();
   }
 
   ngOnInit() {
@@ -124,17 +125,35 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
 
   // get slider hours active index
   onChangeHoursSlide(event) {
-    this.sliderHoursActiveIndex = event.target.swiper.realIndex;
+    if (event.target.swiper.previousIndex === 0 && this.selectedTime === undefined) {
+      this.sliderHoursActiveIndex = event.target.swiper.realIndex;
+    } else if (event.target.swiper.previousIndex === 0 && event.target.swiper.realIndex !== 8) {
+      this.sliderHoursActiveIndex = event.target.swiper.realIndex - event.target.swiper.loopedSlides;
+    } else {
+      this.sliderHoursActiveIndex = event.target.swiper.realIndex;
+    }
   }
 
   // get slider minutes active index
   onChangeMinutesSlide(event) {
-    this.sliderMinutesActiveIndex = event.target.swiper.realIndex;
+   if (event.target.swiper.previousIndex === 0 && this.selectedTime === undefined) {
+        this.sliderMinutesActiveIndex = event.target.swiper.realIndex;
+    } else if (event.target.swiper.previousIndex === 0 && event.target.swiper.realIndex !== 0) {
+      this.sliderMinutesActiveIndex = event.target.swiper.realIndex - event.target.swiper.loopedSlides;
+    } else {
+      this.sliderMinutesActiveIndex = event.target.swiper.realIndex;
+    }
   }
 
   // get slider seconds active index
   onChangeSecondsSlide(event) {
-    this.sliderSecondsActiveIndex = event.target.swiper.realIndex;
+    if (event.target.swiper.previousIndex === 0 && this.selectedTime === undefined) {
+      this.sliderSecondsActiveIndex = event.target.swiper.realIndex;
+    } else if (event.target.swiper.previousIndex === 0 && event.target.swiper.realIndex !== 0) {
+      this.sliderSecondsActiveIndex = event.target.swiper.realIndex - event.target.swiper.loopedSlides;
+    } else {
+      this.sliderSecondsActiveIndex = event.target.swiper.realIndex;
+    }
   }
 
   // get slider seconds active index
@@ -307,9 +326,9 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
   initMinutesArray(format) {
     const obj = moment().startOf('hour');
     const minutesArray: any = [];
-    for (let i = 0; i < 60; i += 5) {
+    for (let i = 0; i < 60; i++) {
       minutesArray.push(obj.format(format));
-      obj.add(5, 'minutes');
+      obj.add(1, 'minutes');
     }
     return minutesArray;
   }
@@ -354,6 +373,3 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-
-
