@@ -16,10 +16,10 @@ const moment = moment_;
 
 export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
 
-  @ViewChild('sliderHours', { static: false }) sliderHours: IonSlides;
-  @ViewChild('sliderMinutes', { static: false }) sliderMinutes: IonSlides;
-  @ViewChild('sliderSeconds', { static: false }) sliderSeconds: IonSlides;
-  @ViewChild('sliderMeridian', { static: false }) sliderMeridian: IonSlides;
+  @ViewChild('sliderHours', { static: false, read: IonSlides }) protected sliderHours: IonSlides;
+  @ViewChild('sliderMinutes', { static: false, read: IonSlides }) protected sliderMinutes: IonSlides;
+  @ViewChild('sliderSeconds', { static: false, read: IonSlides }) protected sliderSeconds: IonSlides;
+  @ViewChild('sliderMeridian', { static: false, read: IonSlides }) protected sliderMeridian: IonSlides;
 
   hoursArray: any = [];
   minutesArray: any = [];
@@ -78,36 +78,25 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.timePickerService.isModalOpen = true;
-    this.mainObj = null;
-    this.momentObj = null;
-    this.hoursArray = [];
-    this.minutesArray = [];
-    this.secondsArray = [];
-    this.meridianArray = [];
-    this.sliderHoursActiveIndex = 0;
-    this.sliderMinutesActiveIndex = 0;
-    this.sliderSecondsActiveIndex = 0;
-    this.sliderMeridianActiveIndex = 0;
-    this.inItTimePicker().subscribe();
   }
 
   ngOnDestroy() {
     this.timePickerService.isModalOpen = false;
-    this.mainObj = null;
-    this.momentObj = null;
-    this.hoursArray = [];
-    this.minutesArray = [];
-    this.secondsArray = [];
-    this.meridianArray = [];
-    this.sliderHoursActiveIndex = 0;
-    this.sliderMinutesActiveIndex = 0;
-    this.sliderSecondsActiveIndex = 0;
-    this.sliderMeridianActiveIndex = 0;
   }
 
   ionViewDidEnter() {
     // this.inItTimePicker().subscribe();
     // this.inItTimePicker();
+    this.updateSlide(this.sliderHours);
+    this.updateSlide(this.sliderMinutes);
+    this.updateSlide(this.sliderSeconds);
+    this.updateSlide(this.sliderMeridian);
+  }
+
+  updateSlide(slides: IonSlides) {
+    if (slides) {
+      slides.update();
+    }
   }
 
   inItTimePicker(): Observable<any> {
@@ -135,17 +124,17 @@ export class IonicTimepickerModalComponent implements OnInit, OnDestroy {
 
   // get slider hours active index
   onChangeHoursSlide(event) {
-    this.sliderHoursActiveIndex = event.target.swiper.activeIndex - event.target.swiper.loopedSlides;
+    this.sliderHoursActiveIndex = event.target.swiper.realIndex;
   }
 
   // get slider minutes active index
   onChangeMinutesSlide(event) {
-    this.sliderMinutesActiveIndex = event.target.swiper.activeIndex - event.target.swiper.loopedSlides;
+    this.sliderMinutesActiveIndex = event.target.swiper.realIndex;
   }
 
   // get slider seconds active index
   onChangeSecondsSlide(event) {
-    this.sliderSecondsActiveIndex = event.target.swiper.activeIndex - event.target.swiper.loopedSlides;
+    this.sliderSecondsActiveIndex = event.target.swiper.realIndex;
   }
 
   // get slider seconds active index
